@@ -15,7 +15,18 @@ class Question(models.Model):
 
 class Choice(models.Model):
     question = models.ForeignKey(Question)
-    choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
+
+    choice_text = models.CharField(max_length=200)  #jennifer
+    votes = models.IntegerField(default=0)  ## TODO refactor = votes and other misnomers
+
+
+    #jennifer TODO populate the same answers about ASSOCIATION IF it is
+    #a broad relationship type
+    """
+    "Are definitely associated"/>
+  <cml:radio value="speculative" label="Are speculatively associated"/>
+  <cml:radio value="negative" label="Are not associated"/>
+  <cml:radio value="false" label="No claim of association made"/>
+    """
     def __unicode__(self):
         return self.choice_text

@@ -6,14 +6,36 @@ from django.utils import timezone
 
 
 from .models import Choice, Question
+###jennifer
 
+from .tests import create_question
 
 ### add here if not completed?
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
-    context_object_name = 'latest_question_list'
+    context_object_name = 'latest_question_list'   ####JENNIFER Latest question list (TODO) remove answered questions
+
+
+    jennifer_question_list = ["Is drug 1 associated with disease A", "Is drug 2 associated with disease B"]
+
+    for q in jennifer_question_list:
+        create_question(q,0)   ###TODO remove publication date... this will become
+    #TODO remove reference to "create_question" method comment
+
+    """ 858 230
+    def create_question(question_text, days):
+
+        Creates a question with the given `question_text` published the given
+        number of `days` offset to now (negative for questions published
+        in the past, positive for questions that have yet to be published).
+
+        time = timezone.now() + datetime.timedelta(days=days)
+        return Question.objects.create(question_text=question_text,
+                                       pub_date=time)
+    """
 
     def get_queryset(self):
+
         """
         Return the last five published questions (not including those set to be
         published in the future).
