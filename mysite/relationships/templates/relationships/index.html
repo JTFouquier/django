@@ -1,0 +1,23 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'relationships/style.css' %}" />
+<p><strong>This is sample text that might be found on mark2cure.org.
+  Studies show that if you eat too much snickers you will become obese, and
+  that if you have meal replacements with slimfast you can prevent obesity.
+  Ibuprofen and codeine can help prevent headaches but not depression. To fight
+  depression you might try zoloft. Caffeine can help with fatigue but can cause
+  restlessness before bedtime. Only when chlorthalidone is combined with
+  atenolol, will it become effective for treating hypertension.
+  <strong></p>
+{% if latest_question_list %}
+    <ul>
+    {% for question in latest_question_list %}
+        <li><strong><a href="{% url 'relationships:detail' question.id %}">{{ question.question_text }}</a><strong></li>
+
+    {% endfor %}
+
+    </ul>
+{% else %}
+    <p>No relationships are available.</p>
+
+{% endif %}

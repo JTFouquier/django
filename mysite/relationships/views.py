@@ -10,19 +10,23 @@ from .models import Choice, Question
 
 from .tests import create_question
 
-### add here if not completed?
+### add here if not completed TODO (remove from list if user already answered)
 class IndexView(generic.ListView):
     template_name = 'relationships/index.html'
     context_object_name = 'latest_question_list'   ####JENNIFER Latest question list (TODO) remove answered questions
+    #######  JENNIFER TODO
+    # TODO caps sensitive
+    # TODO = combination (still important to flag relationships)!!!
+    jennifer_drug_list = ['ibuprofen','codeine','caffeine','atenolol', 'chlorthalidone','slimfast','zoloft', 'snickers bars']
+    jennifer_disease_list = ['obesity','headaches','fatigue','restlessness','hypertension','depression']
 
-    jennifer_drug_list = ['tylenol','clopidogrel','citalopram', 'atenolol', 'codeine', 'random_drug']
-    jennifer_question_list = [""]
-
-    for q in jennifer_question_list:
-        create_question(q,0)   ###TODO remove publication date... this will become
+    for i in jennifer_drug_list:
+        for j in jennifer_disease_list:
+            jennifer_new_question = "The sentence states that %s and %s:"%(i,j)
+            create_question(jennifer_new_question,0)   ###TODO remove publication date... this will become
     #TODO remove reference to "create_question" method comment
 
-    """ 858 230
+    """
     def create_question(question_text, days):
 
         Creates a question with the given `question_text` published the given
@@ -40,7 +44,7 @@ class IndexView(generic.ListView):
         Return the last five published questions (not including those set to be
         published in the future).
         """
-        return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
+        return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:20]
 
 class DetailView(generic.DetailView):
     model = Question
