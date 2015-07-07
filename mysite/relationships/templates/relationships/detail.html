@@ -1,4 +1,9 @@
-<h1>{{ question.question_text }}</h1>
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'relationships/style.css' %}" />
+
+
+<p><center><h2>{{ question.question_text }}</h2>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
@@ -10,4 +15,4 @@
 {% endfor %}
 <p>
 <input type="submit" value="Submit" />
-</form>
+</form></center>

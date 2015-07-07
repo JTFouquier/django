@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -8,43 +10,47 @@ from django.utils import timezone
 from .models import Choice, Question
 ###jennifer
 
-from .tests import create_question
-
 ### add here if not completed TODO (remove from list if user already answered)
+def _create_question(question_text, days, drug, disease):
+    time = timezone.now() + datetime.timedelta(days=days)
+    return Question.objects.create(question_text=question_text,
+                                   pub_date=time)
+
 class IndexView(generic.ListView):
     template_name = 'relationships/index.html'
     context_object_name = 'latest_question_list'   ####JENNIFER Latest question list (TODO) remove answered questions
     #######  JENNIFER TODO
     # TODO caps sensitive
-    # TODO = combination (still important to flag relationships)!!!
-    jennifer_drug_list = ['ibuprofen','codeine','caffeine','atenolol', 'chlorthalidone','slimfast','zoloft', 'snickers bars']
-    jennifer_disease_list = ['obesity','headaches','fatigue','restlessness','hypertension','depression']
+    # TODO = combination (still important to flag relationships if any, but combined drugs)!
 
+    ### Small drug list, with less combinations:
+    jennifer_drug_list = ['IBUPROFEN','caffeine','slimfast', 'snickers bars']
+    jennifer_disease_list = ['obesity','headaches','fatigue','hypertension']
+
+
+    ### Larger drug list with more combinations:
+    """
+    jennifer_drug_list = ['IBUPROFEN','codeine','caffeine','atenolol', 'chlorthalidone','slimfast','zoloft', 'snickers bars']
+    jennifer_disease_list = ['obesity','headaches','fatigue','restlessness','hypertension','depression']
+    """
     for i in jennifer_drug_list:
         for j in jennifer_disease_list:
-            jennifer_new_question = "The sentence states that %s and %s:"%(i,j)
-            create_question(jennifer_new_question,0)   ###TODO remove publication date... this will become
-    #TODO remove reference to "create_question" method comment
+            jennifer_new_question_text = "The sentence states that %s and %s:"%(i,j)
+            if jennifer_new_question_text not in str(Question.objects.all()):
+                p = _create_question(jennifer_new_question_text,0, i, j)   ###TODO remove publication date... this will become
+                p.choice_set.create(choice_text="Are definitely associated (positive)")
+                p.choice_set.create(choice_text="Are speculatively associated (speculative)")
+                p.choice_set.create(choice_text="Are not associated (negative)")
+                p.choice_set.create(choice_text="No claim of association made false")
 
-    """
-    def create_question(question_text, days):
-
-        Creates a question with the given `question_text` published the given
-        number of `days` offset to now (negative for questions published
-        in the past, positive for questions that have yet to be published).
-
-        time = timezone.now() + datetime.timedelta(days=days)
-        return Question.objects.create(question_text=question_text,
-                                       pub_date=time)
-    """
 
     def get_queryset(self):
 
         """
-        Return the last five published questions (not including those set to be
+        Return the last 100 published questions (not including those set to be
         published in the future).
         """
-        return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:20]
+        return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:100]
 
 class DetailView(generic.DetailView):
     model = Question
@@ -72,6 +78,13 @@ def vote(request, question_id):
     else:
         selected_choice.votes += 1
         selected_choice.save()
+        def _create_question(question_text, days):
+            time = timezone.now() + datetime.timedelta(days=days)
+            return Question.objects.create(question_text=question_text,
+                                           pub_date=time)
+        if ("positive" or "speculative") in str(selected_choice):
+            r = _create_question("TESTQ",0)
+            r.choice_set.create(choice_text=p.question_text+"are positively or speculatively related in this way:")
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
