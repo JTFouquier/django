@@ -1,4 +1,5 @@
 import datetime
+import re
 
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
@@ -11,7 +12,7 @@ from .models import Choice, Question
 ###jennifer
 
 ### add here if not completed TODO (remove from list if user already answered)
-def _create_question(question_text, days, drug, disease):
+def _create_question(question_text, days):
     time = timezone.now() + datetime.timedelta(days=days)
     return Question.objects.create(question_text=question_text,
                                    pub_date=time)
@@ -24,24 +25,24 @@ class IndexView(generic.ListView):
     # TODO = combination (still important to flag relationships if any, but combined drugs)!
 
     ### Small drug list, with less combinations:
-    jennifer_drug_list = ['IBUPROFEN','caffeine','slimfast', 'snickers bars']
+    jennifer_drug_list = ['ibuprofen','caffeine','slimfast', 'snickers bars']
     jennifer_disease_list = ['obesity','headaches','fatigue','hypertension']
 
 
     ### Larger drug list with more combinations:
     """
-    jennifer_drug_list = ['IBUPROFEN','codeine','caffeine','atenolol', 'chlorthalidone','slimfast','zoloft', 'snickers bars']
+    jennifer_drug_list = ['ibuprofen','codeine','caffeine','atenolol', 'chlorthalidone','slimfast','zoloft', 'snickers bars']
     jennifer_disease_list = ['obesity','headaches','fatigue','restlessness','hypertension','depression']
     """
     for i in jennifer_drug_list:
         for j in jennifer_disease_list:
             jennifer_new_question_text = "The sentence states that %s and %s:"%(i,j)
             if jennifer_new_question_text not in str(Question.objects.all()):
-                p = _create_question(jennifer_new_question_text,0, i, j)   ###TODO remove publication date... this will become
+                p = _create_question(jennifer_new_question_text,0)   ###TODO remove publication date... this will become
                 p.choice_set.create(choice_text="Are definitely associated (positive)")
                 p.choice_set.create(choice_text="Are speculatively associated (speculative)")
                 p.choice_set.create(choice_text="Are not associated (negative)")
-                p.choice_set.create(choice_text="No claim of association made false")
+                p.choice_set.create(choice_text="No claim of association made (false)")
 
 
     def get_queryset(self):
@@ -82,9 +83,16 @@ def vote(request, question_id):
             time = timezone.now() + datetime.timedelta(days=days)
             return Question.objects.create(question_text=question_text,
                                            pub_date=time)
-        if ("positive" or "speculative") in str(selected_choice):
-            r = _create_question("TESTQ",0)
-            r.choice_set.create(choice_text=p.question_text+"are positively or speculatively related in this way:")
+        if ("positive" or "speculative") in str(selected_choice): # Populates a new question when positive or speculative
+            test_string_relationship = p.question_text[24:-1]
+            r = _create_question("The relationship between"+test_string_relationship+" can be further described as...",0)
+            replacement_text1 = re.sub("and", "may cause", test_string_relationship)
+            replacement_text2 = re.sub("and", "is used in the treatment of", test_string_relationship)
+            r.choice_set.create(choice_text=replacement_text1)
+            r.choice_set.create(choice_text=replacement_text2)
+            r.choice_set.create(choice_text="No extra information is given.")
+            r.choice_set.create(choice_text="There is extra information that is not given as a choice here.")
+
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
