@@ -83,7 +83,7 @@ def vote(request, question_id):
             time = timezone.now() + datetime.timedelta(days=days)
             return Question.objects.create(question_text=question_text,
                                            pub_date=time)
-        if ("positive" or "speculative") in str(selected_choice): # Populates a new question when positive or speculative
+        if "positive" in str(selected_choice) or "speculative" in str(selected_choice): # Populates a new question when positive or speculative
             test_string_relationship = p.question_text[24:-1]
             r = _create_question("The relationship between"+test_string_relationship+" can be further described as...",0)
             replacement_text1 = re.sub("and", "may cause", test_string_relationship)
