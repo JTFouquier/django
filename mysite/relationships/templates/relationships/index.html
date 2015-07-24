@@ -2,12 +2,14 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'relationships/style.css' %}" />
 
+
 <p><center><h1>Relationship Module<h1></center>
 
-<p><h2>Please help us answer questions about how previously marked
-  <strong>drugs<strong> and <strong>diseases<strong> are related (or not related!).
+<h2><strong>Please help us answer questions about how previously marked
+  <strong>drugs<strong> and <strong>diseases<strong> are related (or not related).
     Using the following abstract, please select one of the relationship questions from
-    the list below. </h2></p>
+    the list below.</strong></h2>
+
 
 <p><strong>This is sample text that might be found on mark2cure.org.
   Studies show that if you eat too much snickers you will become obese, and
@@ -16,11 +18,11 @@
   depression you might try zoloft. Caffeine can help with fatigue but can cause
   restlessness before bedtime. Only when chlorthalidone is combined with
   atenolol, will it become effective for treating hypertension.
-  <strong></p>
+</strong></p>
 {% if latest_question_list %}
     <ul>
     {% for question in latest_question_list %}
-        <li><strong><a href="{% url 'relationships:detail' question.id %}">{{ question.question_text }}</a><strong></li>
+        <li><a href="{% url 'relationships:detail' question.id %}">{{ question.question_text }}</a></li>
 
     {% endfor %}
 

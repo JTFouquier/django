@@ -1,9 +1,78 @@
 
 li a {
     color: #8A2EE6;
+    font-family: "Lucidia Console", Geneva, Arial,
+          SunSans-Regular, sans-serif;
+    font-size: 20px;
+}
+h3 {
+    color: #8A2EE6;
+    font-family: "Lucidia Console", Geneva, Arial,
+          SunSans-Regular, sans-serif;
+    font-size: 20px;
 }
 
 
 body {
-    background: white url("images/woven_purple.jpg") no-repeat right bottom;
+  padding-left: 20em;
+  padding-right: 20em;
+  padding-top: 2em;
+  font-family: "Lucidia Console", Geneva, Arial,
+        SunSans-Regular, sans-serif
+  color: black;
+  background-color: white }
+ul.navbar {
+  position: absolute;
+  top: 2em;
+  left: 1em;
+  width: 9em }
+
+p {
+  font-family: "Lucidia Console", Geneva, Arial,
+        SunSans-Regular, sans-serif;
+  line-height: 1.8em;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding-left: 120px;
+  padding-right: 200px;
+  padding-top: 30px;
+  padding-bottom: 10px;
+}
+h1 {
+  font-family: "Lucidia Console", Geneva, Arial,
+        SunSans-Regular, sans-serif;
+  line-height: 1.4em;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 40px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding-bottom: 5px;
+}
+
+h2 {
+  font-family: "Lucidia Console", Geneva, Arial,
+        SunSans-Regular, sans-serif;
+  line-height: 1.4em;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 25px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding: 10px 30px;
 }
