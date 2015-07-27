@@ -44,7 +44,6 @@ class IndexView(generic.ListView):
                 p.choice_set.create(choice_text="Are not associated (negative)")
                 p.choice_set.create(choice_text="No claim of association made (false)")
 
-
     def get_queryset(self):
 
         """
@@ -56,6 +55,7 @@ class IndexView(generic.ListView):
 class DetailView(generic.DetailView):
     model = Question
     template_name = 'relationships/detail.html'
+
     def get_queryset(self):
         """
         Excludes any questions that aren't published yet.
@@ -74,7 +74,7 @@ def vote(request, question_id):
         # Redisplay the question voting form.
         return render(request, 'relationships/detail.html', {
             'question': p,
-            'error_message': "You didn't select a choice.",
+            'error_message': "Error: You didn't select one of the choices :(",
         })
     else:
         selected_choice.votes += 1
