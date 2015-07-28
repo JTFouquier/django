@@ -16,7 +16,6 @@ class Question(models.Model):
 class Choice(models.Model):
     question = models.ForeignKey(Question)
     votes = models.IntegerField(default=0)
-    written_answers = models.CharField(max_length=350)
     choice_text = models.CharField(max_length=200)  #jennifer
     def __unicode__(self):
         return self.choice_text
